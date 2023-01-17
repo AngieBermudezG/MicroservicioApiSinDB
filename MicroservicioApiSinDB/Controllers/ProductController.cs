@@ -17,10 +17,23 @@ namespace MicroservicioApiSinDB
         }
 
         [HttpGet("{id}")]
-        public async Task<ProductModel> GetProductById(int id)
+        public async Task<ActionResult<ProductModel>> GetProductById(int id)
         {
             var product = ProductModels.Single(p => p.Id == id);
             return product;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateProduct(ProductModel product)
+        {
+            product.Id = ProductModels.Count() + 1;
+            ProductModels.Add(product);
+
+            return CreatedAtAction(
+                "GetProductById",
+                new { id = product.Id },
+                product
+            );
         }
 
         //CREANDO LA SIMILITUD DE UNA BASE DE DATOS 
