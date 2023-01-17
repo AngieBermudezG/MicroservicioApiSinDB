@@ -9,6 +9,10 @@ namespace MicroservicioApiSinDB
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {
+        public async Task<ActionResult<List<ProductModel>>> GetAllProduct()
+        {
+            return   Ok(ProductModels);
+        }
        
         //CREANDO LA SIMILITUD DE UNA BASE DE DATOS 
         public static List<ProductModel> ProductModels = new List<ProductModel>
