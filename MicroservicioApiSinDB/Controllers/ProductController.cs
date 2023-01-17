@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MicroservicioApiSinDB.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -6,14 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace MicroservicioApiSinDB
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Products")]
     public class ProductController : ControllerBase
     {
+        [HttpGet]
         public async Task<ActionResult<List<ProductModel>>> GetAllProduct()
         {
             return   Ok(ProductModels);
         }
-       
+
+        [HttpGet("{id}")]
+        public async Task<ProductModel> GetProductById(int id)
+        {
+            var product = ProductModels.Single(p => p.Id == id);
+            return product;
+        }
+
         //CREANDO LA SIMILITUD DE UNA BASE DE DATOS 
         public static List<ProductModel> ProductModels = new List<ProductModel>
         {
