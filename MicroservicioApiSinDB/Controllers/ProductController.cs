@@ -26,6 +26,10 @@ namespace MicroservicioApiSinDB
         [HttpPost]
         public async Task<ActionResult> CreateProduct(ProductModel product)
         {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
             product.Id = ProductModels.Count() + 1;
             ProductModels.Add(product);
 
@@ -34,6 +38,25 @@ namespace MicroservicioApiSinDB
                 new { id = product.Id },
                 product
             );
+        }
+
+        [HttpPut("{productId}")]
+        public async Task<ActionResult> UpdateProduct(int productId, ProductModel model)
+        {
+            var resultProduct = ProductModels.Single(p => p.Id == productId);
+            resultProduct.Name = model.Name;
+            resultProduct.Price = model.Price;
+            resultProduct.Description = model.Description;
+
+            return NoContent();
+        }
+
+        [HttpDelete("{productId}")]
+        public async Task<ActionResult> DeleteProduct(int productId)
+        {
+            ProductModels = ProductModels.Where(x => x.Id != productId).ToList();
+
+            return NoContent();
         }
 
         //CREANDO LA SIMILITUD DE UNA BASE DE DATOS 
